@@ -85,7 +85,10 @@ PROP is the property which is looked up."
   (if (eq prop 'affixation-function)
       (let ((cat (funcall orig metadata 'category))
             (aff (or (funcall orig metadata 'affixation-function)
-                     (when-let ((ann (funcall orig metadata 'annotation-function)))
+                     (plist-get completion-extra-properties :affixation-function)
+                     (when-let ((ann (or (funcall orig metadata 'annotation-function)
+                                         (plist-get completion-extra-properties
+                                                    :annotation-function))))
                        (lambda (cands)
                          (mapcar (lambda (x) (list x "" (funcall ann x))) cands))))))
         (cond
