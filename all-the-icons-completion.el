@@ -136,8 +136,12 @@ PROP is the property which is looked up."
   "Add icons to completion candidates."
   :global t
   (if all-the-icons-completion-mode
-      (advice-add #'completion-metadata-get :around #'all-the-icons-completion-completion-metadata-get)
-    (advice-remove #'completion-metadata-get #'all-the-icons-completion-completion-metadata-get)))
+      (progn
+	(advice-add #'completion-metadata-get :around #'all-the-icons-completion-completion-metadata-get)
+	(advice-add (compat-function completion-metadata-get) :around #'all-the-icons-completion-completion-metadata-get))
+    (progn
+      (advice-remove #'completion-metadata-get #'all-the-icons-completion-completion-metadata-get)
+      (advice-remove (compat-function completion-metadata-get) #'all-the-icons-completion-completion-metadata-get))))
 
 (provide 'all-the-icons-completion)
 ;;; all-the-icons-completion.el ends here
