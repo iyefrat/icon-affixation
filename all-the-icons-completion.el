@@ -9,7 +9,7 @@
 ;; Version: 1.0
 ;; Keywords: convenient, lisp
 ;; Homepage: https://github.com/iyefrat/all-the-icons-completion
-;; Package-Requires: ((emacs "26.1") (all-the-icons "5.0"))
+;; Package-Requires: ((emacs "26.1") (all-the-icons "5.0") (compat "30"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'all-the-icons)
+(require 'compat)
 
 (defgroup all-the-icons-completion nil
   "Add icons to completion candidates."
