@@ -9,7 +9,7 @@
 ;; Version: 1.0
 ;; Keywords: convenient, lisp
 ;; Homepage: https://github.com/iyefrat/all-the-icons-completion
-;; Package-Requires: ((emacs "26.1") (all-the-icons "5.0"))
+;; Package-Requires: ((emacs "26.1") (all-the-icons "5.0") (compat "30"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'all-the-icons)
+(require 'compat)
 
 (defgroup all-the-icons-completion nil
   "Add icons to completion candidates."
@@ -136,8 +137,12 @@ PROP is the property which is looked up."
   "Add icons to completion candidates."
   :global t
   (if all-the-icons-completion-mode
-      (advice-add #'completion-metadata-get :around #'all-the-icons-completion-completion-metadata-get)
-    (advice-remove #'completion-metadata-get #'all-the-icons-completion-completion-metadata-get)))
+      (progn
+        (advice-add #'completion-metadata-get :around #'all-the-icons-completion-completion-metadata-get)
+        (advice-add (compat-function completion-metadata-get) :around #'all-the-icons-completion-completion-metadata-get))
+    (progn
+      (advice-remove #'completion-metadata-get #'all-the-icons-completion-completion-metadata-get)
+      (advice-remove (compat-function completion-metadata-get) #'all-the-icons-completion-completion-metadata-get))))
 
 (provide 'all-the-icons-completion)
 ;;; all-the-icons-completion.el ends here
